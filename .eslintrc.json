@@ -15,8 +15,9 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": ["./tsconfig.json"]
+    "project": ["./tsconfig.json", "./tsconfig.spec.json"]
   },
+  "ignorePatterns": ["src/declarations.d.ts"],
   "rules": {
     "spaced-comment": ["error", "always"]
   }
