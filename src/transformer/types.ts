@@ -1,2 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface TransformOptions {}
+import { NullSymbol } from '../interfaces';
+
+export interface TransformOptions {
+  nullSymbols?: NullSymbol[] | null;
+}
