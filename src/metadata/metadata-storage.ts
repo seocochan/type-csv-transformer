@@ -22,4 +22,12 @@ export class MetadataStorage {
   findColumnMetadata(target: ClassConstructor, propertyName: string): ColumnMetadata | undefined {
     return this.columns.get(target)?.get(propertyName);
   }
+
+  getColumnProperties(target: ClassConstructor): string[] {
+    const metadataMap = this.columns.get(target);
+    if (!metadataMap) {
+      return [];
+    }
+    return [...metadataMap.keys()];
+  }
 }
