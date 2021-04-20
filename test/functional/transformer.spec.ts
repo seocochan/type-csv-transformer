@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { getMetadataStorage } from '../../src/metadata';
-import { Column } from '../../src/decorators';
+import { Column, Nullable } from '../../src/decorators';
 import { transform } from '../../src/transformer';
 
 describe('Transformer', () => {
@@ -24,10 +24,14 @@ describe('Transformer', () => {
 
       @Column()
       birthday: Date;
+
+      @Column({ name: 'hometown' })
+      @Nullable()
+      home: string | null;
     }
 
-    const cat = { name: 'Toma', age: 10, likes: 'chicken', birthday: '2011-12-01' };
-    const catInstance = transform(Cat, cat);
+    const cat = { name: 'Toma', age: 10, likes: 'chicken', birthday: '2011-12-01', hometown: 'NULL' };
+    const catInstance = transform(Cat, cat, { nullSymbols: ['NULL'] });
     expect(catInstance).toBeInstanceOf(Cat);
     expect(catInstance).toEqual({
       name: cat.name,
@@ -35,6 +39,7 @@ describe('Transformer', () => {
       hasLongHair: false,
       interest: cat.likes,
       birthday: new Date(cat.birthday),
+      home: null,
     });
   });
 });
