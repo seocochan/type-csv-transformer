@@ -35,7 +35,7 @@ export class Transformer {
       if (!nullSymbols || nullSymbols.length === 0) {
         throw new Error('No null symbols found. Please set valid symbols');
       }
-      const isNullValue = isNullSymbolCompatible(value) ? nullSymbols.includes(value) : false;
+      const isNullValue = value == null ? true : isNullSymbolCompatible(value) ? nullSymbols.includes(value) : false;
 
       const targetValue = isNullValue
         ? columnMetadata.options?.defaultValue ?? null
