@@ -8,7 +8,7 @@ describe('Bool decorator', () => {
     getMetadataStorage().clear();
   });
 
-  it('should work with default symbols', () => {
+  it('should work with default symbols whether bool decorators are used or not', () => {
     class Data {
       @Column()
       @Bool()
@@ -19,7 +19,6 @@ describe('Bool decorator', () => {
       column2: boolean;
 
       @Column()
-      @Bool()
       column3: boolean;
     }
 
