@@ -1,5 +1,5 @@
 import { ClassConstructor } from '../interfaces';
-import { ColumnOptions, NullableOptions } from '../decorators/types';
+import { BoolOptions, ColumnOptions, NullableOptions } from '../decorators/types';
 
 export type TargetMetadataMap<T> = Map<ClassConstructor, Map<string, T>>;
 
@@ -14,4 +14,10 @@ export interface NullableMetadata {
   target: ClassConstructor;
   propertyName: string;
   options?: NullableOptions;
+}
+
+export interface BoolMetadata {
+  target: ClassConstructor;
+  propertyName: string;
+  options?: BoolOptions;
 }

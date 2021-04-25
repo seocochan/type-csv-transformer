@@ -28,10 +28,21 @@ describe('Transformer', () => {
       @Column({ name: 'hometown' })
       @Nullable()
       home: string | null;
+
+      @Column()
+      @Nullable()
+      isOddEyed: boolean;
     }
 
-    const cat = { name: 'Toma', age: 10, likes: 'chicken', birthday: '2011-12-01', hometown: 'NULL' };
-    const catInstance = transform(Cat, cat, { nullSymbols: ['NULL'] });
+    const cat = {
+      name: 'Toma',
+      age: 10,
+      likes: 'chicken',
+      birthday: '2011-12-01',
+      hometown: 'NULL',
+      isOddEyed: 'no',
+    };
+    const catInstance = transform(Cat, cat, { nullSymbols: ['NULL'], trueSymbols: ['yes'], falseSymbols: ['no'] });
     expect(catInstance).toBeInstanceOf(Cat);
     expect(catInstance).toEqual({
       name: cat.name,
@@ -40,6 +51,7 @@ describe('Transformer', () => {
       interest: cat.likes,
       birthday: new Date(cat.birthday),
       home: null,
+      isOddEyed: false,
     });
   });
 });

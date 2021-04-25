@@ -1,4 +1,4 @@
-import { NullSymbol } from '../interfaces';
+import { BoolSymbol, NullSymbol } from '../interfaces';
 
 export interface ColumnOptions {
   name?: string;
@@ -8,4 +8,9 @@ export interface ColumnOptions {
 
 export interface NullableOptions {
   symbols?: NullSymbol[];
+}
+
+export interface BoolOptions {
+  trueSymbols?: BoolSymbol[];
+  falseSymbols?: BoolSymbol[];
 }
