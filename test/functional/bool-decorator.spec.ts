@@ -85,12 +85,30 @@ describe('Bool decorator', () => {
   });
 
   it('should throw error when symbols are set to null or empty', () => {
-    class Data {
+    class Data1 {
       @Column()
-      @Bool({ trueSymbols: [], falseSymbols: [] })
+      @Bool({ trueSymbols: [] })
       column: boolean;
     }
-    const data = { column: 'true' };
-    expect(() => transform(Data, data, { trueSymbols: null, falseSymbols: null })).toThrow();
+    const data1 = { column: 'true' };
+    expect(() => transform(Data1, data1, { trueSymbols: null })).toThrow();
+
+    class Data2 {
+      @Column()
+      @Bool({ falseSymbols: [] })
+      column: boolean;
+    }
+    const data2 = { column: 'false' };
+    expect(() => transform(Data2, data2, { falseSymbols: null })).toThrow();
+  });
+
+  it('should throw error when there are identical values on true/false symbols', () => {
+    class Data {
+      @Column()
+      @Bool({ trueSymbols: ['uwu'] })
+      column: boolean;
+    }
+    const data = { column: 'uwu' };
+    expect(() => transform(Data, data, { falseSymbols: ['uwu'] })).toThrow();
   });
 });
