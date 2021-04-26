@@ -14,3 +14,5 @@ export interface BoolOptions {
   trueSymbols?: BoolSymbol[];
   falseSymbols?: BoolSymbol[];
 }
+
+export type TransformFunction<ValueType = any> = (value: ValueType) => unknown;

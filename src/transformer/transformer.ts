@@ -29,6 +29,7 @@ export class Transformer {
       const key = columnMetadata.options?.name || targetKey;
       const value = object[key];
 
+      /* determine value is null */
       const nullableMetadata = getMetadataStorage().findNullableMetadata(cls, targetKey);
       if (nullableMetadata && columnMetadata.options?.allowNull === false) {
         throw new Error('@Nullable cannot be used with ColumnOptions.allowNull=false');
@@ -40,9 +41,25 @@ export class Transformer {
       }
       const isNullValue = value == null ? true : isNullSymbolCompatible(value) ? nullSymbols.includes(value) : false;
 
-      const targetValue = isNullValue
-        ? columnMetadata.options?.defaultValue ?? null
-        : this.castValue(value, cls, targetKey);
+      /* determine final value */
+      let targetValue: unknown;
+      const transformMetadata = getMetadataStorage().findTransformMetadata(cls, targetKey);
+      if (isNullValue) {
+        if (columnMetadata.options?.defaultValue != null) {
+          targetValue = columnMetadata.options?.defaultValue;
+        } else if (transformMetadata) {
+          targetValue = transformMetadata.transformFunction(null);
+        } else {
+          targetValue = null;
+        }
+      } else {
+        if (transformMetadata) {
+          targetValue = transformMetadata.transformFunction(value);
+        } else {
+          targetValue = this.castValue(value, cls, targetKey);
+        }
+      }
+
       if (!allowNull && targetValue === null) {
         throw new Error(`Column '${targetKey}' cannot be set to null. Use @Nullable or set allowNull=true if needed`);
       }
