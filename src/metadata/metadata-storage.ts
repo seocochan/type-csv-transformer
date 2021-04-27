@@ -1,6 +1,7 @@
 import { BoolMetadata, ColumnMetadata, NullableMetadata, TargetMetadataMap, TransformMetadata } from './types';
 import { createTargetMetadataMap } from './utils';
 import { ClassConstructor } from '../interfaces';
+import { notNull } from '../utils';
 
 export class MetadataStorage {
   private columns: TargetMetadataMap<ColumnMetadata> = createTargetMetadataMap();
@@ -20,9 +21,7 @@ export class MetadataStorage {
       this.columns.set(metadata.target, new Map());
     }
     const metadataMap = this.columns.get(metadata.target);
-    if (metadataMap) {
-      metadataMap.set(metadata.propertyName, metadata);
-    }
+    notNull(metadataMap).set(metadata.propertyName, metadata);
   }
 
   addNullableMetadata(metadata: NullableMetadata): void {
@@ -30,9 +29,7 @@ export class MetadataStorage {
       this.nullables.set(metadata.target, new Map());
     }
     const metadataMap = this.nullables.get(metadata.target);
-    if (metadataMap) {
-      metadataMap.set(metadata.propertyName, metadata);
-    }
+    notNull(metadataMap).set(metadata.propertyName, metadata);
   }
 
   addBoolMetadata(metadata: BoolMetadata): void {
@@ -40,9 +37,7 @@ export class MetadataStorage {
       this.bools.set(metadata.target, new Map());
     }
     const metadataMap = this.bools.get(metadata.target);
-    if (metadataMap) {
-      metadataMap.set(metadata.propertyName, metadata);
-    }
+    notNull(metadataMap).set(metadata.propertyName, metadata);
   }
 
   addTransformMetadata(metadata: TransformMetadata): void {
@@ -50,9 +45,7 @@ export class MetadataStorage {
       this.transforms.set(metadata.target, new Map());
     }
     const metadataMap = this.transforms.get(metadata.target);
-    if (metadataMap) {
-      metadataMap.set(metadata.propertyName, metadata);
-    }
+    notNull(metadataMap).set(metadata.propertyName, metadata);
   }
 
   findColumnMetadata(target: ClassConstructor, propertyName: string): ColumnMetadata | undefined {

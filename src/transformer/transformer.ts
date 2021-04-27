@@ -2,6 +2,7 @@ import { TransformOptions } from './types';
 import { isBoolSymbolCompatible, isDateConstructable, isNullSymbolCompatible } from './utils';
 import { getMetadataStorage } from '../metadata';
 import { BoolSymbol, ClassConstructor, NullSymbol } from '../interfaces';
+import { notNull } from '../utils';
 
 export class Transformer {
   private readonly nullSymbols: NullSymbol[] | null = ['null', 'None', ''];
@@ -22,10 +23,7 @@ export class Transformer {
     const targetInstance = new cls() as Record<string, unknown>;
 
     for (const targetKey of targetKeys) {
-      const columnMetadata = getMetadataStorage().findColumnMetadata(cls, targetKey);
-      if (!columnMetadata) {
-        throw new Error('Cannot get column metadata');
-      }
+      const columnMetadata = notNull(getMetadataStorage().findColumnMetadata(cls, targetKey));
       const key = columnMetadata.options?.name || targetKey;
       const value = object[key];
 
@@ -69,11 +67,7 @@ export class Transformer {
   }
 
   private castValue(value: unknown, cls: ClassConstructor, key: string) {
-    const columnMetadata = getMetadataStorage().findColumnMetadata(cls, key);
-    if (!columnMetadata) {
-      throw new Error('Cannot get column metadata');
-    }
-
+    const columnMetadata = notNull(getMetadataStorage().findColumnMetadata(cls, key));
     const type = columnMetadata.reflectedType;
     switch (type) {
       case String:
