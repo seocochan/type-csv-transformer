@@ -64,4 +64,31 @@ describe('Transformer', () => {
       weight: 5.6,
     });
   });
+
+  it('should return empty object when no properties are decorated', () => {
+    class Data {
+      column1: string;
+      column2: number;
+    }
+    const data = { column1: 'uwu', column2: 144 };
+    expect(transform(Data, data)).toEqual({});
+  });
+
+  it('should throw error when invalid value is given to date type column', () => {
+    class Data {
+      @Column()
+      date: Date;
+    }
+    const data = { date: {} };
+    expect(() => transform(Data, data)).toThrow();
+  });
+
+  it('should throw error when reflected type is not supported in default casting method', () => {
+    class Data {
+      @Column()
+      column: string[];
+    }
+    const data = { column: ['uwu'] };
+    expect(() => transform(Data, data)).toThrow();
+  });
 });

@@ -44,7 +44,7 @@ export class Transformer {
       const transformMetadata = getMetadataStorage().findTransformMetadata(cls, targetKey);
       if (isNullValue) {
         if (columnMetadata.options?.defaultValue != null) {
-          targetValue = columnMetadata.options?.defaultValue;
+          targetValue = columnMetadata.options.defaultValue;
         } else if (transformMetadata) {
           targetValue = transformMetadata.transformFunction(null);
         } else {

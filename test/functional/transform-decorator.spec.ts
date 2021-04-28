@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { getMetadataStorage } from '../../src/metadata';
-import { Bool, Column, Transform } from '../../src/decorators';
+import { Bool, Column, Nullable, Transform } from '../../src/decorators';
 import { transform } from '../../src/transformer';
 
 describe('Transform decorator', () => {
@@ -12,16 +12,21 @@ describe('Transform decorator', () => {
     class Data {
       @Column()
       @Transform(value => (value == null ? 'yes' : 'no'))
-      column: string;
+      column1: string;
+
+      @Column()
+      @Nullable()
+      @Transform(value => (value == null ? null : value))
+      column2: number;
     }
-    const data = { column: 'null' };
-    expect(transform(Data, data)).toEqual({ column: 'yes' });
+    const data = { column1: 'null', column2: 'null' };
+    expect(transform(Data, data)).toEqual({ column1: 'yes', column2: null });
   });
 
   it('should not perform transform function when default values can be assigned', () => {
     class Data {
       @Column({ defaultValue: 'default' })
-      @Transform(_value => 'transformed')
+      @Transform(() => 'transformed')
       column: string;
     }
     const data1 = { column: 'null' };

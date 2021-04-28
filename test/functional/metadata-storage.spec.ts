@@ -24,4 +24,11 @@ describe('MetadataStorage', () => {
     const metadataStorage = getMetadataStorage();
     expect(metadataStorage.getColumnProperties(BasicObject)).toEqual(['column1', 'column2', 'column3']);
   });
+
+  it('should return undefined when given property have no metadata', () => {
+    class Data {
+      column: string;
+    }
+    expect(getMetadataStorage().findColumnMetadata(Data, 'column')).toBeUndefined();
+  });
 });
