@@ -1,6 +1,8 @@
+import { NotNullAssertionError } from '../errors';
+
 export function notNull<T>(value: T): NonNullable<T> {
   if (value == null) {
-    throw new Error('Expected that value is defined but found null. Usually, this error should never occur.');
+    throw new NotNullAssertionError();
   }
   return value as NonNullable<T>;
 }

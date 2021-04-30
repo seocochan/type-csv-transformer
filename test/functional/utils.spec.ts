@@ -1,4 +1,5 @@
 import { notNull } from '../../src/utils';
+import { NotNullAssertionError } from '../../src/errors';
 
 describe('Utils', () => {
   describe('notNull method', () => {
@@ -11,7 +12,7 @@ describe('Utils', () => {
     it('should throw error when value is not defined', () => {
       expect(() => {
         notNull(null);
-      }).toThrow();
+      }).toThrow(NotNullAssertionError);
     });
   });
 });
