@@ -1,4 +1,4 @@
-import { TransformOptions } from './types';
+import { TransformerOptions } from './types';
 import { isBoolSymbolCompatible, isDateConstructable, isNullSymbolCompatible } from './utils';
 import { getMetadataStorage } from '../metadata';
 import { BoolSymbol, ClassConstructor, NullSymbol } from '../interfaces';
@@ -9,7 +9,7 @@ export class Transformer {
   private readonly trueSymbols: BoolSymbol[] | null = ['true', 'True', 1];
   private readonly falseSymbols: BoolSymbol[] | null = ['false', 'False', 0];
 
-  constructor(private readonly options?: TransformOptions) {
+  constructor(private readonly options?: TransformerOptions) {
     this.nullSymbols = options?.nullSymbols !== undefined ? options.nullSymbols : this.nullSymbols;
     this.trueSymbols = options?.trueSymbols !== undefined ? options.trueSymbols : this.trueSymbols;
     this.falseSymbols = options?.falseSymbols !== undefined ? options.falseSymbols : this.falseSymbols;
