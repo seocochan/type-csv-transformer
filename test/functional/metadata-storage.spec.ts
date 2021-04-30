@@ -1,6 +1,5 @@
 import 'reflect-metadata';
-import { getMetadataStorage } from '../../src/metadata';
-import { Column } from '../../src/decorators';
+import { Column, getMetadataStorage } from '../../src';
 
 describe('MetadataStorage', () => {
   beforeAll(() => {

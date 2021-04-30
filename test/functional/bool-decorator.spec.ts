@@ -1,7 +1,5 @@
 import 'reflect-metadata';
-import { getMetadataStorage } from '../../src/metadata';
-import { Bool, Column } from '../../src/decorators';
-import { transform } from '../../src/transformer';
+import { Bool, Column, getMetadataStorage, transform } from '../../src';
 
 describe('Bool decorator', () => {
   beforeAll(() => {

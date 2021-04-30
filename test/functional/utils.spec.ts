@@ -1,5 +1,4 @@
-import { notNull } from '../../src/utils';
-import { NotNullAssertionError } from '../../src/errors';
+import { notNull, NotNullAssertionError } from '../../src';
 
 describe('Utils', () => {
   describe('notNull method', () => {

@@ -9,3 +9,5 @@ export function transform<ClsType, ObjectType extends Record<string, unknown>>(
 ): ClsType {
   return new Transformer(options).execute(cls, object);
 }
+
+export * from './types';
