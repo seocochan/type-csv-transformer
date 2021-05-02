@@ -17,8 +17,9 @@
     "sourceType": "module",
     "project": ["./tsconfig.json", "./tsconfig.spec.json"]
   },
-  "ignorePatterns": ["src/declarations.d.ts"],
+  "ignorePatterns": ["src/declarations.d.ts", "rollup.config.js"],
   "rules": {
-    "spaced-comment": ["error", "always"]
+    "spaced-comment": ["error", "always"],
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
