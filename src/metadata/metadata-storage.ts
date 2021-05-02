@@ -69,6 +69,6 @@ export class MetadataStorage {
     if (!metadataMap) {
       return [];
     }
-    return [...metadataMap.keys()];
+    return Array.from(metadataMap.keys());
   }
 }
