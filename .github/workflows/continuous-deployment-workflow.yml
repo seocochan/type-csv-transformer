@@ -17,6 +17,6 @@ jobs:
       - run: yarn lint:check
       - run: yarn test:ci
       - run: yarn build
-      - run: npm publish ./build
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
