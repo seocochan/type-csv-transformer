@@ -21,6 +21,7 @@ jobs:
           node-version: 14
       - run: yarn install
       - run: yarn test:ci
+      - uses: codecov/codecov-action@v1
   build:
     name: Build
     runs-on: ubuntu-latest
