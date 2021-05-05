@@ -19,7 +19,7 @@ CSV-friendly, declarative and type-safe object to class transformer.
 ## Features
 
 - **Decorator** and **class** based declarative transformations.
-- **Automatically converts** nullish or boolean-ish string values. (e.g. `'null'`, `'true'`)
+- **Automatically converts** nullish or boolean-ish values. (e.g. `'null'`, `'true'`)
 - Works as **middleware**, following CSV parser you're using (like [`node-csv`](https://csv.js.org/))
 - **Customizable**, define your own conversion rules or custom transform methods.
 - **Tested**, with high code coverage.
@@ -170,11 +170,74 @@ expect(catInstance).toEqual({
 });
 ```
 
-> This library is still in early stage. If these behavior does not fit into your use cases, feel free to [open an issue](https://github.com/seocochan/type-csv-transformer/issues/new)!
+> This library is still in early stage. If this behavior does not fit into your use cases, feel free to [open an issue](https://github.com/seocochan/type-csv-transformer/issues/new)!
 
 ## API Reference
 
-> TODO
+### Decorators
+
+#### `@Column(options?)`
+
+`@Column` must be specified on every class properties you want to convert,
+otherwise transformer will ignore those properties.
+
+`ColumnOptions`:
+
+| Property                 | Default | Description                                                                         |
+|--------------------------|:-------:|-------------------------------------------------------------------------------------|
+| `name?: string`          |    -    | Specifies origin object's key. Used when it's not identical to class property name. |
+| `allowNull?: boolean`    | `false` | If set to false or by default, it will throw error when null values are given.      |
+| `defaultValue?: unknown` |    -    | Sets default value to assign when evaluation lead to null values.                    |
+
+#### `@Nullable(options?)`
+
+Specifying `@Nullable` works like set `ColumnOptions.allowNull=true`.
+(_You cannot use this decorator when `ColumnOptions.allowNull=false`._)
+
+And it provides extra options to set nullish conversion symbols.
+
+`NullableOptions`:
+
+| Property                            | Default | Description                                                                                                                 |
+|-------------------------------------|:-------:|-----------------------------------------------------------------------------------------------------------------------------|
+| `symbols?: Array<string \| number>` |    -    | Sets nullish symbols. Overrides default symbols and global `transform()` behavior. Values cannot be null or empty array. |
+
+#### `@Bool(options?)`
+
+`@Bool` is utility decorator that can transform boolean-ish values
+
+`BoolOptions`:
+
+| Property                                 | Default | Description                                                                                                                                          |
+|------------------------------------------|:-------:|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `trueSymbols?: Array<string \| number>`  |    -    | Sets boolean-ish symbols that matches to `true`. Overrides default symbols and global `transform()` behavior. Values cannot be null or empty array.  |
+| `falseSymbols?: Array<string \| number>` |    -    | Sets boolean-ish symbols that matches to `false`. Overrides default symbols and global `transform()` behavior. Values cannot be null or empty array. |
+
+#### `@Transform(transformFunction)`
+
+It provides custom transform method. Used when behaviors of `@Nullable` or `@Bool` does not work as expected or to handle other complex cases.
+
+- `transformFunction: (value: any) => unknown`
+
+There are some caveats when mixing other methods with `@Transform`.
+
+- `@Bool` will be ignored when used together.
+- `@Transform` will be ignored when transform leads to `defaultValue` of `@Column`.
+
+### Methods
+
+#### `transform(cls, object, options?)`
+
+Transforms object into class instance. 
+Also provides extra options to control its behavior.
+
+`TransformerOptions`:
+
+| Property                                         |         Default         | Description                                       |
+|--------------------------------------------------|:-----------------------:|---------------------------------------------------|
+| `nullSymbols?: Array<string \| number> \| null`  | `['null', 'None', '']`  | Sets nullish symbols.                             |
+| `trueSymbols?: Array<string \| number> \| null`  | `['true', 'True', 1]`   | Sets boolean-ish symbols that matches to `true`.  |
+| `falseSymbols?: Array<string \| number> \| null` | `['false', 'False', 0]` | Sets boolean-ish symbols that matches to `false`. |
 
 ## Inspirations
 
@@ -185,7 +248,7 @@ Still this library's concepts and implementations are inspired by [`class-transf
 `type-csv-transformer`
 
 - concentrates on more specific problems.
-- provides many utilities to handle CSV easly.
+- provides many utilities to handle CSV easily.
 - has much smaller bundle size.
 
 ## Contributing
